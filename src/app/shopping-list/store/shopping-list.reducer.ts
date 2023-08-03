@@ -1,5 +1,5 @@
 import { Ingredient } from '../../shared/ingredient.model';
-import * as ShoppingListActions from './shopping-list.actions';
+import * as ShopListActions from './shopping-list.actions';
 
 const initialState = {
   ingredients: [new Ingredient('Apples', 5), new Ingredient('Tomatoes', 10)],
@@ -7,13 +7,38 @@ const initialState = {
 
 export function shoppingListReducer(
   state = initialState,
-  action: ShoppingListActions.AddIngredient
+  action: ShopListActions.ShoppingListActions
 ) {
   switch (action.type) {
-    case ShoppingListActions.ADD_INGREDIENT:
+    case ShopListActions.ADD_INGREDIENT:
       return {
         ...state,
         ingredients: [...state.ingredients, action.payload],
+      };
+    case ShopListActions.ADD_INGREDIENTS:
+      return {
+        ...state,
+        ingredients: [...state.ingredients, action.payload],
+      };
+    case ShopListActions.UPDATE_INGREDIENT:
+      const ingredient = state.ingredients[action.payload.index];
+      const updatedIngredient = {
+        ...ingredient,
+        ...action.payload.ingredient,
+      };
+      const updatedIngredients = [...state.ingredients];
+      updatedIngredients[action.payload.index] = updatedIngredient;
+      return {
+        ...state,
+        ingredients: updatedIngredients,
+      };
+    case ShopListActions.DELETE_INGREDIENT:
+      const deleteIngredient = state.ingredients.filter((item) => item.)
+      return {
+        ...state,
+        ingredients: state.ingredients.filter((item, index) => {
+          return index !== action.payload
+        }),
       };
     default:
       return state;

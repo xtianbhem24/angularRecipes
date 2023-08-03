@@ -27,16 +27,17 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' + environment.firebaseAPIKey,
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' +
+          environment.firebaseAPIKey,
         {
           email: email,
           password: password,
-          returnSecureToken: true
+          returnSecureToken: true,
         }
       )
       .pipe(
         catchError(this.handleError),
-        tap(resData => {
+        tap((resData) => {
           this.handleAuthentication(
             resData.email,
             resData.localId,
@@ -48,18 +49,31 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
+    // return this.http.get<AuthResponseData>('www.google.com').pipe(
+    //   catchError(this.handleError),
+    //   tap((resData) => {
+    //     console.log('SUGOI');
+    //     this.handleAuthentication(
+    //       'sample@test.com',
+    //       '11122',
+    //       '1234',
+    //       100000000
+    //     );
+    //   })
+    // );
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' + environment.firebaseAPIKey,
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' +
+          environment.firebaseAPIKey,
         {
           email: email,
           password: password,
-          returnSecureToken: true
+          returnSecureToken: true,
         }
       )
       .pipe(
         catchError(this.handleError),
-        tap(resData => {
+        tap((resData) => {
           this.handleAuthentication(
             resData.email,
             resData.localId,
@@ -142,6 +156,7 @@ export class AuthService {
         errorMessage = 'This password is not correct.';
         break;
     }
+
     return throwError(errorMessage);
   }
 }
